@@ -1,5 +1,4 @@
 import csv
-from itertools import groupby
 
 
 all_items = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'

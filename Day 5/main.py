@@ -33,7 +33,6 @@ def move_crates(stacks, moves):
         remaining_crates = start_stack[:-move[2]]
         stacks[move[0]] = remaining_crates
         stacks[move[1]].extend(moving_crates)
-        print(stacks)
 
 
 with open('input.txt', 'r') as f:
