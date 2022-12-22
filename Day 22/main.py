@@ -126,54 +126,49 @@ class Mesh:
     @property
     def regions(self):
         if self._regions is None:
+            n = self.region_size
             array = np.array(self.tiles)
-            region1 = array[:self.region_size,
-                      self.region_size * 2:self.region_size * 3]
-            region2 = array[self.region_size:self.region_size * 2,
-                      :self.region_size]
-            region3 = array[self.region_size:self.region_size * 2,
-                      self.region_size:self.region_size * 2]
-            region4 = array[self.region_size:self.region_size * 2,
-                      self.region_size * 2:self.region_size * 3]
-            region5 = array[self.region_size * 2:self.region_size * 3,
-                      self.region_size * 2:self.region_size * 3]
-            region6 = array[self.region_size * 2:self.region_size * 3,
-                      self.region_size * 3:self.region_size * 4]
+            region1 = array[:n, n:n*2]
+            region2 = array[:n, n*2:n*3]
+            region3 = array[n:n*2, n:n*2]
+            region4 = array[n*2:n*3, :n]
+            region5 = array[n*2:n*3, n:n*2]
+            region6 = array[n*3:n*4, :n]
             regions = {}
             for i, r in enumerate([region1, region2, region3,
                                    region4, region5, region6]):
                 tiles = {t.coord: t for t in r.flatten()}
                 face = i + 1
                 regions[i+1] = Region(face, tiles)
-            regions[1].connections = {Face.FOUR: Connection(Face.ONE, Face.FOUR, Direction.SOUTH, Direction.SOUTH),
-                                      Face.THREE: Connection(Face.ONE, Face.THREE, Direction.WEST, Direction.SOUTH),
-                                      Face.SIX: Connection(Face.ONE, Face.SIX, Direction.EAST, Direction.WEST),
-                                      Face.TWO: Connection(Face.ONE, Face.TWO, Direction.NORTH, Direction.SOUTH)}
+            regions[1].connections = {Face.FOUR: Connection(Face.ONE, Face.FOUR, Direction.WEST, Direction.EAST),
+                                      Face.THREE: Connection(Face.ONE, Face.THREE, Direction.SOUTH, Direction.SOUTH),
+                                      Face.SIX: Connection(Face.ONE, Face.SIX, Direction.NORTH, Direction.EAST),
+                                      Face.TWO: Connection(Face.ONE, Face.TWO, Direction.EAST, Direction.EAST)}
 
-            regions[2].connections = {Face.ONE: Connection(Face.TWO, Face.ONE, Direction.NORTH, Direction.NORTH),
-                                      Face.THREE: Connection(Face.TWO, Face.THREE, Direction.EAST, Direction.EAST),
-                                      Face.SIX: Connection(Face.TWO, Face.SIX, Direction.WEST, Direction.NORTH),
-                                      Face.FIVE: Connection(Face.TWO, Face.FIVE, Direction.SOUTH, Direction.SOUTH)}
+            regions[2].connections = {Face.ONE: Connection(Face.TWO, Face.ONE, Direction.WEST, Direction.WEST),
+                                      Face.THREE: Connection(Face.TWO, Face.THREE, Direction.SOUTH, Direction.WEST),
+                                      Face.SIX: Connection(Face.TWO, Face.SIX, Direction.NORTH, Direction.NORTH),
+                                      Face.FIVE: Connection(Face.TWO, Face.FIVE, Direction.EAST, Direction.WEST)}
 
-            regions[3].connections = {Face.FOUR: Connection(Face.THREE, Face.FOUR, Direction.EAST, Direction.EAST),
-                                      Face.TWO: Connection(Face.THREE, Face.TWO, Direction.WEST, Direction.WEST),
-                                      Face.FIVE: Connection(Face.THREE, Face.FIVE, Direction.SOUTH, Direction.EAST),
-                                      Face.ONE: Connection(Face.THREE, Face.ONE, Direction.NORTH, Direction.EAST)}
+            regions[3].connections = {Face.FOUR: Connection(Face.THREE, Face.FOUR, Direction.WEST, Direction.SOUTH),
+                                      Face.TWO: Connection(Face.THREE, Face.TWO, Direction.EAST, Direction.NORTH),
+                                      Face.FIVE: Connection(Face.THREE, Face.FIVE, Direction.SOUTH, Direction.SOUTH),
+                                      Face.ONE: Connection(Face.THREE, Face.ONE, Direction.NORTH, Direction.NORTH)}
 
-            regions[4].connections = {Face.ONE: Connection(Face.FOUR, Face.ONE, Direction.NORTH, Direction.NORTH),
-                                      Face.THREE: Connection(Face.FOUR, Face.THREE, Direction.WEST, Direction.WEST),
-                                      Face.FIVE: Connection(Face.FOUR, Face.FIVE, Direction.SOUTH, Direction.SOUTH),
-                                      Face.SIX: Connection(Face.FOUR, Face.SIX, Direction.EAST, Direction.SOUTH)}
+            regions[4].connections = {Face.ONE: Connection(Face.FOUR, Face.ONE, Direction.WEST, Direction.EAST),
+                                      Face.THREE: Connection(Face.FOUR, Face.THREE, Direction.NORTH, Direction.EAST),
+                                      Face.FIVE: Connection(Face.FOUR, Face.FIVE, Direction.EAST, Direction.EAST),
+                                      Face.SIX: Connection(Face.FOUR, Face.SIX, Direction.SOUTH, Direction.SOUTH)}
 
-            regions[5].connections = {Face.FOUR: Connection(Face.FIVE, Face.FOUR, Direction.NORTH, Direction.NORTH),
-                                      Face.THREE: Connection(Face.FIVE, Face.THREE, Direction.WEST, Direction.NORTH),
-                                      Face.SIX: Connection(Face.FIVE, Face.SIX, Direction.EAST, Direction.EAST),
-                                      Face.TWO: Connection(Face.FIVE, Face.TWO, Direction.SOUTH, Direction.NORTH)}
+            regions[5].connections = {Face.FOUR: Connection(Face.FIVE, Face.FOUR, Direction.WEST, Direction.WEST),
+                                      Face.THREE: Connection(Face.FIVE, Face.THREE, Direction.NORTH, Direction.NORTH),
+                                      Face.SIX: Connection(Face.FIVE, Face.SIX, Direction.SOUTH, Direction.WEST),
+                                      Face.TWO: Connection(Face.FIVE, Face.TWO, Direction.EAST, Direction.WEST)}
 
-            regions[6].connections = {Face.FOUR: Connection(Face.SIX, Face.FOUR, Direction.NORTH, Direction.WEST),
-                                      Face.FIVE: Connection(Face.SIX, Face.FIVE, Direction.WEST, Direction.WEST),
-                                      Face.ONE: Connection(Face.SIX, Face.ONE, Direction.EAST, Direction.WEST),
-                                      Face.TWO: Connection(Face.SIX, Face.TWO, Direction.SOUTH, Direction.EAST)}
+            regions[6].connections = {Face.FOUR: Connection(Face.SIX, Face.FOUR, Direction.NORTH, Direction.NORTH),
+                                      Face.FIVE: Connection(Face.SIX, Face.FIVE, Direction.EAST, Direction.NORTH),
+                                      Face.ONE: Connection(Face.SIX, Face.ONE, Direction.WEST, Direction.SOUTH),
+                                      Face.TWO: Connection(Face.SIX, Face.TWO, Direction.SOUTH, Direction.SOUTH)}
             self._regions = regions
 
         return self._regions
@@ -227,7 +222,7 @@ class Mesh:
         return self._void_tiles
 
     @classmethod
-    def from_file(cls, file_name, region_size: int = 4):
+    def from_file(cls, file_name, region_size: int = 50):
         with open(file_name) as f:
             data = [s.strip('\n') for s in f.readlines()]
         map_ = [s for s in data if '.' in s]
@@ -271,7 +266,7 @@ class Mesh:
                 steps = int(element)
                 commands.append(Command(steps, new_direct, change))
 
-        return cls(tiles, commands, 4)
+        return cls(tiles, commands, region_size)
 
     def initialise_player(self):
         start = [t for t in self.tiles[0] if t.type == TileType.OPEN][0]
@@ -279,13 +274,27 @@ class Mesh:
         return self.player
 
     def apply_command_to_player(self, command: Command):
-        # Neeed to change direction based on Side and NOT the direction
+        # Need to change direction based on Side and NOT the direction
         # stored in the command. Won't work with cube.
         steps = command.steps
         player_x = self.player.tile.coord.x
         player_y = self.player.tile.coord.y
         final = Coord(player_x, player_y)
-        direction = command.direction
+        initial_direction = self.player.direction
+        if command.change == Side.RIGHT:
+            direction_val = initial_direction.value + 1
+            if direction_val > 3:
+                direction_val = 0
+            direction = DIRECTION_MAP[direction_val]
+        elif command.change == Side.LEFT:
+            direction_val = initial_direction.value - 1
+            if direction_val < 0:
+                direction_val = 3
+            direction = DIRECTION_MAP[direction_val]
+        elif command.change == Side.NONE:
+            direction = initial_direction
+        else:
+            raise TypeError
         for k in range(steps):
             if direction == Direction.NORTH:
                 yk = -1
@@ -307,12 +316,14 @@ class Mesh:
             if new in self.void_tiles:
                 pre_wrap_x = player_x - xk
                 pre_wrap_y = player_y - yk
+                old_direction = direction
                 player_x, player_y, direction = self.wraparound2(pre_wrap_x, pre_wrap_y,
                                                                  direction)
                 new = Coord(player_x, player_y)
                 if new in self.wall_tiles:
                     final = Coord(pre_wrap_x,
                                   pre_wrap_y)
+                    direction = old_direction
                     break
             if new in self.wall_tiles:
                 final = Coord(player_x - xk,
@@ -321,7 +332,7 @@ class Mesh:
             else:
                 final = Coord(player_x,
                               player_y)
-        self.player = Player(self.tiles_by_coord[final], command.direction)
+        self.player = Player(self.tiles_by_coord[final], direction)
 
     def wraparound(self, player_x, player_y, pre_wrap_x, pre_wrap_y, xk, yk):
         new = Coord(pre_wrap_x, pre_wrap_y)
@@ -354,7 +365,7 @@ class Mesh:
                 player_x = disp + new_region.imin
                 player_y = new_region.jmax
             case Direction.EAST:
-                player_y = disp + region.jmin
+                player_y = disp + new_region.jmin
                 player_x = new_region.imin
             case Direction.WEST:
                 player_y = new_region.jmax - disp
@@ -370,7 +381,7 @@ class Mesh:
 
 
 def main():
-    m = Mesh.from_file('test.txt')
+    m = Mesh.from_file('input.txt')
     m.initialise_player()
     m.execute_commands()
     pwd = (m.player.tile.coord.x + 1) * 4 + \
