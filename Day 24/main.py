@@ -1,3 +1,4 @@
+import math
 from dataclasses import dataclass
 from collections import namedtuple
 from enum import Enum
@@ -129,7 +130,7 @@ class Valley:
 
     @property
     def cycle_time(self):
-        return (self.imax-self.imin+1) * (self.jmax-self.jmin+1)
+        return math.lcm((self.imax-self.imin+1), (self.jmax-self.jmin+1))
 
     @property
     def blizzard_positions(self):
