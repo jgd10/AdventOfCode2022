@@ -217,8 +217,8 @@ def parse_file(file_name: str):
         moved_elves = mesh.move_proposed_steps()
         mesh.rotate_directions()
         counter += 1
-        if counter % 10 == 0:
-            print('Part 1: ', mesh.area - len(mesh.elves), 'Part 2:', counter)
+        if counter == 10:
+            print('Part 1: ', mesh.area - len(mesh.elves))
     print(counter)
 
 
