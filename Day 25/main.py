@@ -2,8 +2,6 @@ from dataclasses import dataclass
 from itertools import zip_longest
 
 
-CONVERTER = {'=': -2, '-': -1, '0': 0, '1': 1, '2': 2}
-
 ADDITION_TABLE = {('=', '='): ('-', '1'),
                   ('=', '-'): ('-', '2'),
                   ('=', '0'): ('0', '='),
